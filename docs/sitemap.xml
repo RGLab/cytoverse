@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://cytoverse.org/index.html</loc>
+  </url>
+  <url>
+    <loc>https://cytoverse.org/reference/cytoverse_conflicts.html</loc>
+  </url>
+  <url>
+    <loc>https://cytoverse.org/reference/cytoverse_deps.html</loc>
+  </url>
+  <url>
+    <loc>https://cytoverse.org/reference/cytoverse_packages.html</loc>
+  </url>
+  <url>
+    <loc>https://cytoverse.org/reference/cytoverse_update.html</loc>
+  </url>
+</urlset>
