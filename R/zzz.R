@@ -6,11 +6,7 @@
   crayon::num_colors(TRUE)
   cytoverse_attach()
 
-  if (!"package:conflicted" %in% search()) {
-    x <- cytoverse_conflicts()
-    msg(cytoverse_conflict_message(x), startup = TRUE)
-  }
-
+  
 }
 
 is_attached <- function(x) {
