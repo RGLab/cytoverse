@@ -33,10 +33,10 @@ devtools::install_github("RGLab/cytoverse")
 
 `library(cytoverse)` will load the core cytoverse packages: 
 
-* [ggcyto](http:/ggcyto.cytoverse.org), for data visualisation.
-* [openCyto](http://openCyto.cytoverse.org), for auto gating.
-* [flowWorkspace](http://flowWorkspace.cytoverse.org), for gated data interaction.
-* [CytoML](http://CytoML.cytoverse.org), for data import/export through gatingML/xml.
+* [flowWorkspace](http:/github.com/RGLab/flowWorkspace), for gated data interaction.
+* [ggcyto](http:/github.com/RGLab/ggcyto), for data visualisation.
+* [openCyto](http:/github.com/RGLab/openCyto), for auto gating.
+* [CytoML](http:/github.com/RGLab/CytoML), for data analysis import/export through gatingML/xml.
 
 
 ```{r example}

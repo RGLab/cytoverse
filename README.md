@@ -25,36 +25,15 @@ Usage
 
 `library(cytoverse)` will load the core cytoverse packages:
 
--   [ggcyto](http:/ggcyto.cytoverse.org), for data visualisation.
--   [openCyto](http://openCyto.cytoverse.org), for auto gating.
--   [flowWorkspace](http://flowWorkspace.cytoverse.org), for gated data interaction.
--   [CytoML](http://CytoML.cytoverse.org), for data import/export through gatingML/xml.
+-   [flowWorkspace](http:/github.com/RGLab/flowWorkspace), for gated data interaction.
+-   [ggcyto](http:/github.com/RGLab/ggcyto), for data visualisation.
+-   [openCyto](http:/github.com/RGLab/openCyto), for auto gating.
+-   [CytoML](http:/github.com/RGLab/CytoML), for data analysis import/export through gatingML/xml.
 
 ``` r
 library(cytoverse)
-#> ── Attaching packages ───────────────────────────────────────────────────────────────── cytoverse 0.99 ──
+#> ── Attaching packages ─────────────────────────────────────────────────────────── cytoverse 0.0.0.9000 ──
 #> ✔ flowCore      1.49.10     ✔ ggcyto        1.11.5 
 #> ✔ flowWorkspace 3.31.16     ✔ CytoML        1.9.6  
 #> ✔ openCyto      1.21.4
-#> ── Conflicts ─────────────────────────────────────────────────────────────────── cytoverse_conflicts() ──
-#> ✖ ggcyto::%+%()               masks ggplot2::%+%()
-#> ✖ flowCore::%in%()            masks base::%in%()
-#> ✖ flowCore::alias()           masks stats::alias()
-#> ✖ flowCore::assign()          masks base::assign()
-#> ✖ CytoML::colnames()          masks flowWorkspace::colnames(), ncdfFlow::colnames(), flowCore::colnames(), base::colnames()
-#> ✖ flowWorkspace::colnames<-() masks ncdfFlow::colnames<-(), flowCore::colnames<-(), base::colnames<-()
-#> ✖ flowCore::eval()            masks base::eval()
-#> ✖ ncdfFlow::filter()          masks flowCore::filter(), stats::filter()
-#> ✖ flowCore::head()            masks utils::head()
-#> ✖ flowWorkspace::lapply()     masks ncdfFlow::lapply(), base::lapply()
-#> ✖ flowCore::ls()              masks base::ls()
-#> ✖ flowCore::ncol()            masks base::ncol()
-#> ✖ flowCore::nrow()            masks base::nrow()
-#> ✖ openCyto::plot()            masks flowWorkspace::plot(), flowCore::plot(), graphics::plot()
-#> ✖ ggcyto::print()             masks flowCore::print(), base::print()
-#> ✖ ncdfFlow::split()           masks flowCore::split(), base::split()
-#> ✖ flowCore::summary()         masks base::summary()
-#> ✖ flowCore::tail()            masks utils::tail()
-#> ✖ ggcyto::transform()         masks flowWorkspace::transform(), ncdfFlow::transform(), flowCore::transform(), base::transform()
-#> ✖ ncdfFlow::unlink()          masks base::unlink()
 ```

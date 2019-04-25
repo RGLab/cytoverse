@@ -8,11 +8,9 @@ Authors@R:
              email = "wjiang2@fredhutch.org"))
 Description: The 'cytoverse' is a set of packages that are commonly used for cytometry data analysis. 
             This package is designed to make it easy to install and load
-    multiple 'cytoverse' packages in a single step. Learn more about the
-    'cytoverse' at <https://cytoverse.org>.
+    multiple 'cytoverse' packages in a single step.
 License: GPL-3
-URL: http://cytoverse.org,
-    https://github.com/RGLab/cytoverse
+URL: https://github.com/RGLab/cytoverse
 BugReports: https://github.com/RGLab/cytoverse/issues
 Depends: 
     R (>= 3.1)
