@@ -4,7 +4,7 @@ hexSticker::sticker(package = "cytoverse", filename = "man/figures/logo.png"
                     , s_x = 1
                     # , spotlight =T
                     , h_fill = "black"
-                    , p_size = 20, p_color = "orange"
+                    , p_size = 25, p_color = "orange"
                     )
 # library(ggplot2)
 # mtcars <- mtcars[1:2, ]
