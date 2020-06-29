@@ -1,5 +1,5 @@
 .onAttach <- function(...) {
-  needed <- core[!is_attached(core)]
+  needed <- core_pkgs[!is_attached(core_pkgs)]
   if (length(needed) == 0)
     return()
 

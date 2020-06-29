@@ -4,19 +4,47 @@
 \alias{cytoverse_update}
 \title{Update cytoverse packages}
 \usage{
-cytoverse_update(recursive = FALSE)
+cytoverse_update(repo = "bioconductor", pkgs = NULL, ...)
 }
 \arguments{
-\item{recursive}{If \code{TRUE}, will also check all dependencies of
-cytoverse packages.}
+\item{repo}{Either "bioconductor" or "github" specifying whether to use Bioconductor or the
+RGLab GitHub package repositories}
+
+\item{pkgs}{A character vector containing a specific subset of cytoverse packages to check for updates. 
+If NULL, all cytoverse packages will be checked. For the full list of packages, see \code{\link{cytoverse_packages}}.}
+
+\item{...}{Other arguments passed to either \code{\link[BiocManager:install]{BiocManager::install}} or \code{\link[remotes:install_github]{remotes::install_github}}}
 }
 \description{
 This will check to see if all cytoverse packages (and optionally, their
-dependencies) are up-to-date, and will install after an interactive
-confirmation.
+dependencies) are up-to-date and installl those that are behind. The \code{repo} argument
+will determine whether to update from Bioconductor or GitHub and the \code{pkgs} argument
+allows for specification of a subset of packages to update.
+}
+\details{
+This utilizes either \code{\link[BiocManager:install]{BiocManager::install}} for Bioconductor or \code{\link[remotes:install_github]{remotes::install_github}}
+to check for package updates to install. As such, additional arguments can be passed to either of those methods.
+Please see the examples for the most typical use cases. \code{If repo="bioconductor"} is used and \code{BiocManager} is unavailable, it will be installed.
 }
 \examples{
 \dontrun{
-cytoverse_update()
+# Default behavior. Update all cytoverse packages from
+# appropriate Bioconductor release.
+cytoverse_update() 
+
+# Still using appropriate Bioconductor release, but limiting to just checking
+# a few packages for updates.
+cytoverse_update(pkgs = c("flowWorkspace", "CytoML"))
+
+# Specify that you would like to use the current development branches from Bioconductor
+cytoverse_update(version = "devel")
+
+# Override default repository (Bioconductor) to instead install from GitHub
+cytoverse_update(repo = "github")
+
+# An example showing extra arguments being passed down to install_github.
+# Only update cytoqc and all of its dependencies (including from "Suggests" and "Enhances" sections)
+cytoverse_update(repo = "github", pkgs = "cytoqc", dependencies = TRUE)
+
 }
 }

@@ -1,66 +1,56 @@
 #' Update cytoverse packages
 #'
 #' This will check to see if all cytoverse packages (and optionally, their
-#' dependencies) are up-to-date, and will install after an interactive
-#' confirmation.
-#'
-#' @param recursive If \code{TRUE}, will also check all dependencies of
-#'   cytoverse packages.
+#' dependencies) are up-to-date and installl those that are behind. The \code{repo} argument
+#' will determine whether to update from Bioconductor or GitHub and the \code{pkgs} argument
+#' allows for specification of a subset of packages to update.
+#' 
+#' This utilizes either \code{\link[BiocManager:install]{BiocManager::install}} for Bioconductor or \code{\link[remotes:install_github]{remotes::install_github}}
+#' to check for package updates to install. As such, additional arguments can be passed to either of those methods.
+#' Please see the examples for the most typical use cases. \code{If repo="bioconductor"} is used and \code{BiocManager} is unavailable, it will be installed.
+#' 
+#' @param repo Either "bioconductor" or "github" specifying whether to use Bioconductor or the
+#' RGLab GitHub package repositories
+#' @param pkgs A character vector containing a specific subset of cytoverse packages to check for updates. 
+#' If NULL, all cytoverse packages will be checked. For the full list of packages, see \code{\link{cytoverse_packages}}.
+#' @param ... Other arguments passed to either \code{\link[BiocManager:install]{BiocManager::install}} or \code{\link[remotes:install_github]{remotes::install_github}}
 #' @export
 #' @examples
 #' \dontrun{
-#' cytoverse_update()
+#' # Default behavior. Update all cytoverse packages from
+#' # appropriate Bioconductor release.
+#' cytoverse_update() 
+#' 
+#' # Still using appropriate Bioconductor release, but limiting to just checking
+#' # a few packages for updates.
+#' cytoverse_update(pkgs = c("flowWorkspace", "CytoML"))
+#' 
+#' # Specify that you would like to use the current development branches from Bioconductor
+#' cytoverse_update(version = "devel")
+#' 
+#' # Override default repository (Bioconductor) to instead install from GitHub
+#' cytoverse_update(repo = "github")
+#' 
+#' # An example showing extra arguments being passed down to install_github.
+#' # Only update cytoqc and all of its dependencies (including from "Suggests" and "Enhances" sections)
+#' cytoverse_update(repo = "github", pkgs = "cytoqc", dependencies = TRUE)
+#' 
 #' }
-cytoverse_update <- function(recursive = FALSE) {
-
-  deps <- cytoverse_deps(recursive)
-  behind <- dplyr::filter(deps, behind)
-
-  if (nrow(behind) == 0) {
-    cli::cat_line("All cytoverse packages up-to-date")
-    return(invisible())
+cytoverse_update <- function(repo = "bioconductor", pkgs = NULL, ...) {
+  if(is.null(pkgs))
+    pkgs <- all_pkgs
+  repo = match.arg(tolower(repo), c("bioconductor", "github"))
+  if(repo == "bioconductor"){
+    if (!requireNamespace("BiocManager", quietly = TRUE))
+      install.packages("BiocManager")
+    args <- list(...)
+    if(!is.null(args$version))
+      BiocManager::install(version=args$version)
+    BiocManager::install(pkgs, ...)
+  }else{
+    if("cytoqc" %in% pkgs)
+      remotes::install_github(paste("thebioengineer/colortable"), ...)
+    remotes::install_github(paste("RGLab", pkgs, sep = "/"), ...)
   }
-
-  cli::cat_line("The following packages are out of date:")
-  cli::cat_line()
-  cli::cat_bullet(format(behind$package), " (", behind$local, " -> ", behind$cran, ")")
-
-  cli::cat_line()
-  cli::cat_line("Start a clean R session then run:")
-
-  pkg_str <- paste0(deparse(behind$package), collapse = "\n")
-  cli::cat_line("install.packages(", pkg_str, ")")
-
   invisible()
-}
-
-#' List all cytoverse dependencies
-#'
-#' @param recursive If \code{TRUE}, will also list all dependencies of
-#'   cytoverse packages.
-#' @export
-cytoverse_deps <- function(recursive = FALSE) {
-  pkgs <- utils::available.packages()
-  deps <- tools::package_dependencies("cytoverse", pkgs, recursive = recursive)
-
-  pkg_deps <- unique(sort(unlist(deps)))
-
-  base_pkgs <- c(
-    "base", "compiler", "datasets", "graphics", "grDevices", "grid",
-    "methods", "parallel", "splines", "stats", "stats4", "tools", "tcltk",
-    "utils"
-  )
-  pkg_deps <- setdiff(pkg_deps, base_pkgs)
-
-  cran_version <- lapply(pkgs[pkg_deps, "Version"], base::package_version)
-  local_version <- lapply(pkg_deps, utils::packageVersion)
-
-  behind <- purrr::map2_lgl(cran_version, local_version, `>`)
-
-  tibble::tibble(
-    package = pkg_deps,
-    cran = cran_version %>% purrr::map_chr(as.character),
-    local = local_version %>% purrr::map_chr(as.character),
-    behind = behind
-  )
 }

@@ -15,13 +15,9 @@ BugReports: https://github.com/RGLab/cytoverse/issues
 Depends: 
     R (>= 3.1)
 Imports: 
-    flowCore (>= 1.43.10),
-    flowWorkspace (>= 3.28.12),
-    openCyto (>= 1.11.3),
-    ncdfFlow,
-    ggcyto (>= 1.9.4),
-    CytoML (>= 1.8.1),
-    crayon
+    crayon,
+    cli,
+    rstudioapi
 Suggests: 
     covr,
     feather,
@@ -32,4 +28,4 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
