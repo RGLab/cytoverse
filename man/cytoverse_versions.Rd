@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{cytoverse_versions}
 \alias{cytoverse_versions}
-\title{List package versions for all packages in the cytoverse}
+\title{List installed package versions for all packages in the cytoverse}
 \usage{
 cytoverse_versions(pkgs = "all", include_self = TRUE, print = TRUE)
 }
@@ -18,8 +18,10 @@ that will be loaded by library(cytoverse)}
 a named character vector of package versions
 }
 \description{
-List package versions for all packages in the cytoverse
+List installed package versions for all packages in the cytoverse
 }
 \examples{
+\dontrun{
 cytoverse_versions()
+}
 }

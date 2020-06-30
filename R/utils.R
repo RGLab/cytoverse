@@ -32,7 +32,9 @@ text_col <- function(x) {
 #' @export
 #' @return a character vector of package names
 #' @examples
+#' \dontrun{
 #' cytoverse_packages()
+#' }
 cytoverse_packages <- function(pkgs = "all", include_self = TRUE) {
   pkgs <- match.arg(tolower(pkgs), c("all", "core"))
   names <- switch(pkgs,
@@ -44,7 +46,7 @@ cytoverse_packages <- function(pkgs = "all", include_self = TRUE) {
   names
 }
 
-#' List package versions for all packages in the cytoverse
+#' List installed package versions for all packages in the cytoverse
 #' 
 #' @param pkgs A character specifying which packages to list. "all" will include all cytoverse packages while "core" will include only those core packages
 #' that will be loaded by library(cytoverse)
@@ -53,7 +55,9 @@ cytoverse_packages <- function(pkgs = "all", include_self = TRUE) {
 #' @return a named character vector of package versions
 #' @export
 #' @examples
+#' \dontrun{
 #' cytoverse_versions()
+#' }
 cytoverse_versions <- function(pkgs = "all", include_self = TRUE, print = TRUE) {
   pkgs <- cytoverse_packages(pkgs=pkgs, include_self=include_self)
   versions <- sapply(pkgs, package_version, colorize = FALSE)
@@ -95,4 +99,54 @@ style_grey <- function(level, ...) {
     paste0(...),
     crayon::make_style(grDevices::grey(level), grey = TRUE)
   )
+}
+
+#' Check available version for a single cytoverse package
+#' 
+#' This method will check the currently available version of a specified
+#' cytoverse package from the specified repository source.
+#' 
+#' @param pkg package name (see \code{\link{cytoverse_packages}} for all options)
+#' @param repo either "bioconductor" or "github", specifying repository source
+#' @param branch optionally allows specification of a branch within the repository. For Bioconductor, this
+#' corresponds to the version (e.g. "3.11" or "devel") and will default to the value of \code{\link[BiocManager:install]{BiocManager::version()}}. 
+#' For GitHub, this refers to branch from the GitHub repositories and will default to "master".
+#' @return a string representing the package version (e.g "4.1.4")
+#' 
+#' @examples
+#' \dontrun{
+#' # Defaults to checking Bioconductor
+#' cytoverse_remote_version("flowWorkspace")
+#' 
+#' cytoverse_remote_version("flowWorkspace", repo = "github")
+#' }
+#' @export
+cytoverse_remote_version <- function(pkg, repo = "bioconductor", branch = NULL) {
+  repo = match.arg(tolower(repo), c("bioconductor", "github"))
+  if(repo == "bioconductor"){
+    if (!requireNamespace("BiocManager", quietly = TRUE))
+      install.packages("BiocManager")
+    if(is.null(branch))
+      version = BiocManager::version()
+    else
+      version = branch
+    if(pkg == "flowWorkspaceData")
+      prefix = "/data/experiment/"
+    else
+      prefix = "/bioc/"
+    url <- paste0("https://bioconductor.org/packages/", version, prefix, "html/", pkg, ".html")
+    url
+    x <- readLines(url)
+    remote_version <- gsub("\\D+([\\.0-9-]+)\\D+", '\\1', x[grep("<td>Version:{0,1}</td>", x)+1])
+  }else{
+    if(is.null(branch))
+      ref = "master"
+    else
+      ref = branch
+    url <- paste("https://raw.githubusercontent.com/RGLab", pkg, ref, "DESCRIPTION", sep = "/")
+    url
+    x <- readLines(url)
+    remote_version <- gsub("Version:\\s*", "", x[grep('Version:', x)])
+  }
+  remote_version
 }

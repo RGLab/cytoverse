@@ -19,5 +19,7 @@ a character vector of package names
 List all packages in the cytoverse
 }
 \examples{
+\dontrun{
 cytoverse_packages()
+}
 }

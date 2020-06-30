@@ -4,14 +4,30 @@
 \alias{cytoverse_update}
 \title{Update cytoverse packages}
 \usage{
-cytoverse_update(repo = "bioconductor", pkgs = NULL, ...)
+cytoverse_update(
+  repo = "bioconductor",
+  pkgs = NULL,
+  branch = NULL,
+  check_versions = TRUE,
+  upgrades_approved = FALSE,
+  ...
+)
 }
 \arguments{
-\item{repo}{Either "bioconductor" or "github" specifying whether to use Bioconductor or the
-RGLab GitHub package repositories}
+\item{repo}{either "bioconductor" or "github", specifying repository source}
 
 \item{pkgs}{A character vector containing a specific subset of cytoverse packages to check for updates. 
 If NULL, all cytoverse packages will be checked. For the full list of packages, see \code{\link{cytoverse_packages}}.}
+
+\item{branch}{optionally allows specification of a branch within the repository. For Bioconductor, this
+corresponds to the version (e.g. "3.11" or "devel") and will default to the value of \code{\link[BiocManager:install]{BiocManager::version()}}. 
+For GitHub, this refers to branch from the GitHub repositories and will default to "master".}
+
+\item{check_versions}{a logical indicating whether the package versions should be checked to determine which packages to update. This defaults to TRUE, but if switched
+to FALSE, installation will default to checking commit SHA. This can be used to force updates for commits between version increments.}
+
+\item{upgrades_approved}{a logical indicating whether the user should be asked to approve/disapprove the proposed package updates. Defaults to FALSE, but If set to TRUE, 
+the interactive prompt will be skipped and the updates will proceed automatically.}
 
 \item{...}{Other arguments passed to either \code{\link[BiocManager:install]{BiocManager::install}} or \code{\link[remotes:install_github]{remotes::install_github}}}
 }
@@ -29,12 +45,16 @@ Please see the examples for the most typical use cases. \code{If repo="bioconduc
 \examples{
 \dontrun{
 # Default behavior. Update all cytoverse packages from
-# appropriate Bioconductor release.
-cytoverse_update() 
+# appropriate Bioconductor release. Asks for approval of proposed updates.
+cytoverse_update()
+
+# Same as above, but do not ask for approval before proceeding with installation
+cytoverse_update(upgrades_approved = TRUE)
 
 # Still using appropriate Bioconductor release, but limiting to just checking
-# a few packages for updates.
-cytoverse_update(pkgs = c("flowWorkspace", "CytoML"))
+# a few packages for updates. check_versions = FALSE makes the method attempt to
+# update all packages, relying on commit SHA to determine if packages are up-to-date
+cytoverse_update(pkgs = c("flowWorkspace", "CytoML"), check_versions = FALSE)
 
 # Specify that you would like to use the current development branches from Bioconductor
 cytoverse_update(version = "devel")

@@ -15,23 +15,23 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The cytoverse is a set of packages that are commonly used for cytometry data analysis. The __cytoverse__ package is designed to make it easy to install and load core packages from the cytoverse in a single command.
+The cytoverse is a set of packages that are commonly used for cytometry data analysis. The __cytoverse__ package is designed to make it easy to install and load core packages from the cytoverse in a single command. It also provides helper commands to check the versions of installed cytoverse packages.
 
 
 ## Installation
 
 ```{r eval = FALSE}
-# Install from Bioconductor
-BiocManager::install("cytoverse")
-
-# Or the development version from GitHub
-# install.packages("devtools")
+# Install the cytoverse package
 devtools::install_github("RGLab/cytoverse")
+# Load the package
+library(cytoverse)
+# Install all cytoverse packages and their dependencies
+cytoverse_update()
 ```
 
 ## Usage
 
-`library(cytoverse)` will load the core cytoverse packages: 
+`library(cytoverse)` will load the core cytoverse packages (once they are installed): 
 
 * [flowWorkspace](http:/github.com/RGLab/flowWorkspace), for gated data interaction.
 * [ggcyto](http:/github.com/RGLab/ggcyto), for data visualisation.
