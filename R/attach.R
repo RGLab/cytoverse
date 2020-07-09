@@ -42,8 +42,8 @@ cytoverse_attach <- function() {
     successfully_loaded <- suppressWarnings(sapply(to_load, require, character.only = TRUE, warn.conflicts = FALSE))
   )
   if(any(!successfully_loaded))
-    message(paste("Some cytoverse packages missing: ", paste(to_load[!successfully_loaded], collapse = ", "), "\n",
-            "Please call cytoverse_update to add missing packages"))
+    message(paste("Some cytoverse packages could not be loaded: ", paste(to_load[!successfully_loaded], collapse = ", "), "\n",
+            "Please call cytoverse_update to add missing packages."))
 
   invisible()
 }
